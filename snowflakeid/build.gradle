@@ -16,6 +16,12 @@ version = '0.1.0-SNAPSHOT'
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+
+}
+
+configurations {
+    cucumberBom
+    junitBom
 }
 
 dependencies {
@@ -29,6 +35,12 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation libs.guava
+
+    testImplementation 'io.cucumber:cucumber-java:7.15.0'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.15.0'
+    testImplementation 'org.junit.platform:junit-platform-suite'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -41,4 +53,23 @@ java {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDir 'specs'
+        }
+    }
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+        events "passed", "skipped", "failed", "started"
+        showStandardStreams = true
+    }
 }
