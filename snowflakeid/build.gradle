@@ -8,10 +8,12 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'signing'
+    id "com.vanniktech.maven.publish" version "0.28.0"
 }
 
-group = 'io.beandev.microframework'
-version = '0.1.0-SNAPSHOT'
+group = 'io.github.henrypham67'
+version = '0.1.0'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -50,6 +52,21 @@ java {
     }
 }
 
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+signing {
+	useGpgCmd()
+	sign publishing.publications
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
@@ -72,4 +89,31 @@ test {
         events "passed", "skipped", "failed", "started"
         showStandardStreams = true
     }
+}
+
+import com.vanniktech.maven.publish.SonatypeHost
+
+mavenPublishing {
+  publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+  signAllPublications()
+
+  coordinates(group, "snowflakeid", version)
+
+  pom {
+    name = "Snowflake-id"
+    description = "A description of what my library does."
+    url = "https://github.com/henrypham67/snowflakeid/"
+    licenses {
+      license {
+        name = "The Apache License, Version 2.0"
+        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    }
+    scm {
+      url = "https://github.com/henrypham67/snowflakeid"
+      connection = "scm:git:git://github.com/henrypham67/snowflakeid.git"
+      developerConnection = "scm:git:ssh://git@github.com/henrypham67/snowflakeid.git"
+    }
+  }
 }
