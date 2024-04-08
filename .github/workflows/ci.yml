@@ -3,7 +3,7 @@ name: Test - Publish
 on: push
 
 jobs:
-  test:
+  test-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
