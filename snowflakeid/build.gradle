@@ -12,7 +12,7 @@ plugins {
     id "com.vanniktech.maven.publish" version "0.28.0"
 }
 
-group = 'io.github.henrypham67'
+group = 'io.beandev.microframework'
 version = '0.1.0'
 
 repositories {
@@ -62,11 +62,6 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-signing {
-	useGpgCmd()
-	sign publishing.publications
-}
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
@@ -100,20 +95,24 @@ mavenPublishing {
   coordinates(group, "snowflakeid", version)
 
   pom {
-    name = "Snowflake-id"
-    description = "A description of what my library does."
-    url = "https://github.com/henrypham67/snowflakeid/"
+    name = "snowflakeid"
+    url = "https://github.com/BeanMicro/snowflakeid/"
     licenses {
-      license {
-        name = "The Apache License, Version 2.0"
-        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-        distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
+        license {
+            name = "MIT"
+            url = "https://opensource.org/licenses/MIT"
+        }
+    }
+    developers {
+        developer {
+            id = "peterbean410"
+            name = "Peter Bean"
+        }
     }
     scm {
-      url = "https://github.com/henrypham67/snowflakeid"
-      connection = "scm:git:git://github.com/henrypham67/snowflakeid.git"
-      developerConnection = "scm:git:ssh://git@github.com/henrypham67/snowflakeid.git"
+      url = "https://github.com/BeanMicro/snowflakeid"
+      connection = "scm:git:git://github.com/BeanMicro/snowflakeid.git"
+      developerConnection = "scm:git:ssh://git@github.com/BeanMicro/snowflakeid.git"
     }
   }
 }
