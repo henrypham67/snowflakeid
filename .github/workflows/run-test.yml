@@ -21,13 +21,13 @@ jobs:
         run: make test
 
       - name: Publish package
-        if: contains(fromJSON('["master", "release"]'), github.ref_name)
-        run: |
+        if: contains(fromJSON('["master", "releases"]'), github.ref_name)
+        run: s
           echo "Running commands based on branch: ${{ github.ref_name }}"
           if [[ "${{ github.ref_name }}" == "master"* ]]; then
             echo "Deploy package with manual release"
             ./gradlew publishToMavenCentral --no-configuration-cache
-          elif [[ "${{ github.ref_name }}" == "release"* ]]; then
+          elif [[ "${{ github.ref_name }}" == "releases"* ]]; then
             echo "Deploy package with automatic release"
             ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
           else
