@@ -21,7 +21,7 @@ jobs:
         run: make test
 
       - name: Publish package
-        if: contains(fromJSON('["master", "releases"]'), github.ref_name)
+        if: contains(github.ref_name, fromJSON('["master", "releases"]'))
         run: |
           echo "Running commands based on branch: ${{ github.ref_name }}"
           if [[ "${{ github.ref_name }}" == "master"* ]]; then
