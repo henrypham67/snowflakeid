@@ -21,7 +21,21 @@ jobs:
         run: make test
 
       - name: Publish package
-        run: ./gradlew publish
+        if: contains(fromJSON('["master", "release"]'), github.ref_name)
+        run: |
+          echo "Running commands based on branch: ${{ github.ref_name }}"
+          if [[ "${{ github.ref_name }}" == "master"* ]]; then
+            echo "Deploy package with manual release"
+            ./gradlew publishToMavenCentral --no-configuration-cache
+          elif [[ "${{ github.ref_name }}" == "release"* ]]; then
+            echo "Deploy package with automatic release"
+            ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+          else
+            echo "No specific commands for this branch"
+          fi
         env: 
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
