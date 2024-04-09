@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref_name == 'master'
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
@@ -41,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref_name, 'releases/')
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3 
 
