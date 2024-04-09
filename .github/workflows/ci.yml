@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref_name == 'master'
     steps:
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Publish package
         run: |
           ./gradlew publishToMavenCentral --no-configuration-cache
@@ -38,6 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref_name, 'releases/')
     steps:
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3 
+
       - name: Release package
         run: |
             ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
